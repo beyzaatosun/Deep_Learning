@@ -1,4 +1,4 @@
-# Deep_Learning Projects
+# Deep Learning Projects
 
 This repository is a collection of various projects that utilize deep learning techniques. Each project uses a different model and dataset to apply deep learning concepts. This repo serves as a starting point for those who want to practice and learn about deep learning methods.
 
@@ -35,25 +35,57 @@ This repository is a collection of various projects that utilize deep learning t
 
 3. **Sentiment Analysis on the IMDB Dataset Using an RNN Model**
 
--This project uses TensorFlow and Keras Tuner to create an RNN (Recurrent Neural Network) model for sentiment analysis on the IMDB dataset. In the project, Keras Tuner is used to optimize the model’s hyperparameters using the Random Search method.
+- This project uses TensorFlow and Keras Tuner to create an RNN (Recurrent Neural Network) model for sentiment analysis on the IMDB dataset. In the project, Keras Tuner is used to optimize the model’s hyperparameters using the Random Search method.
 
-  -**Steps:**
-    -Loading the IMDB Dataset: The IMDB dataset is loaded using Keras's imdb.load_data() function. This dataset contains labeled movie reviews to perform sentiment analysis. The reviews are converted into numbers using a vocabulary of the top 10,000 words.
+  - **Data Steps:**
+    - Loading the IMDB Dataset: The IMDB dataset is loaded using Keras's imdb.load_data() function. This dataset contains labeled movie reviews to perform sentiment analysis. The reviews are converted into numbers using a vocabulary of the top 10,000 words.
 
-    -Data Preprocessing: The loaded text data is padded using the pad_sequences function, with a maximum word length of 100. This ensures that the input data has a consistent length for model processing.
+    - Data Preprocessing: The loaded text data is padded using the pad_sequences function, with a maximum word length of 100. This ensures that the input data has a consistent length for model processing.
 
-  -**Model Architecture Definition:**
+  - **Model Architecture Definition:**
 
-    -**Embedding Layer:** Represents words as low-dimensional dense vectors (embeddings).
-    -**SimpleRNN Layer:** The RNN processes sequential data and provides an output for each input.
-    -**Dropout Layer:** Helps prevent overfitting by increasing the model’s generalization ability.
-    -**Dense Layer:** The final layer of the model, using a sigmoid activation function for sentiment prediction.
-    -**Hyperparameter Search:**
+     - **Embedding Layer:** Represents words as low-dimensional dense vectors (embeddings).
+     - **SimpleRNN Layer:** The RNN processes sequential data and provides an output for each input.
+     - **Dropout Layer:** Helps prevent overfitting by increasing the model’s generalization ability.
+     - **Dense Layer:** The final layer of the model, using a sigmoid activation function for sentiment prediction.
+     ```python
+    def build_model(hp):
+    model = Sequential()
+    #embedding kelimeleri vektörlere cevirir
+    model.add(Embedding(input_dim=max_features,
+                        output_dim=hp.Int("embedding_output", min_value=32, max_value=128, step=32),
+                        input_length=max_len))
+    model.add(SimpleRNN(units=hp.Int("rnn_units", min_value=32, max_value=128,step=32)))
+    model.add(Dropout(rate=hp.Float("dropout_rate", min_value=0.1, max_value=0.5, step=0.1)))
+    model.add(Dense(1, activation="sigmoid"))
+    
+    model.compile(optimizer=hp.Choice("optimizer", ["adam","rmsprop"]),
+                                     loss="binary_crossentropy",
+                                     metrics=["accuracy"])
+    return model
+    
+  - **Hyperparameter Search:**
+    - Keras Tuner is used to perform hyperparameter optimization with RandomSearch.
+    - Hyperparameters such as embedding output size, RNN units, dropout rate, and optimizer are optimized.
+    - The RandomSearch method is used to find the best hyperparameter combination.
+      ```python
+      tuner = RandomSearch(
+      build_model, 
+      objective = "val_loss" , 
+      max_trials=2, 
+      executions_per_trial=2, 
+      directory="rnn_tuner_directory",
+      project_name="rnn"
+      )
+      
+  - **Early Stopping:**
 
-    -Keras Tuner is used to perform hyperparameter optimization with RandomSearch.
-    -Hyperparameters such as embedding output size, RNN units, dropout rate, and optimizer are optimized.
-    -The RandomSearch method is used to find the best hyperparameter combination.
-  -**Early Stopping:**
-
-    -Early stopping is applied, which terminates training when the validation loss does not improve. The best model weights are restored after training.
+    Early stopping is applied, which terminates training when the validation loss does not improve. The best model weights are restored after training.
+    ```python
+    early_stopping = EarlyStopping(monitor ="val_loss", patience=3, restore_best_weights=True)
+    tuner.search(x_train, y_train,
+             epochs=15,
+             validation_split=0.2,
+             callbacks=[early_stopping])
+    
 
