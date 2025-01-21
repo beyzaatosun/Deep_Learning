@@ -17,7 +17,8 @@ This repository is a collection of various projects that utilize deep learning t
   - Test Loss: 0.083
 
 2. **CNN - CIFAR-10 Image Classification:**
-In this project, a Convolutional Neural Network (CNN) model is developed to classify images from the CIFAR-10 dataset, which contains 60,000 32x32 color images in 10 different classes.
+   
+- In this project, a Convolutional Neural Network (CNN) model is developed to classify images from the CIFAR-10 dataset, which contains 60,000 32x32 color images in 10 different classes.
 - **Technologies Used:** Keras, TensorFlow, NumPy, Matplotlib, Scikit-learn
 - **Model Architecture:**
   - Input: 32x32 color images (RGB)
@@ -32,4 +33,27 @@ In this project, a Convolutional Neural Network (CNN) model is developed to clas
   - One-hot Encoding: The labels are encoded into one-hot vectors.
   - Image Augmentation: Rotation range, width/height shift, shear range, zoom range, and horizontal flip are used to augment the training data for better generalization.
 
+3. **Sentiment Analysis on the IMDB Dataset Using an RNN Model**
+
+-This project uses TensorFlow and Keras Tuner to create an RNN (Recurrent Neural Network) model for sentiment analysis on the IMDB dataset. In the project, Keras Tuner is used to optimize the model’s hyperparameters using the Random Search method.
+
+-**Steps:**
+-Loading the IMDB Dataset: The IMDB dataset is loaded using Keras's imdb.load_data() function. This dataset contains labeled movie reviews to perform sentiment analysis. The reviews are converted into numbers using a vocabulary of the top 10,000 words.
+
+-Data Preprocessing: The loaded text data is padded using the pad_sequences function, with a maximum word length of 100. This ensures that the input data has a consistent length for model processing.
+
+-**Model Architecture Definition:**
+
+-**Embedding Layer:** Represents words as low-dimensional dense vectors (embeddings).
+-**SimpleRNN Layer:** The RNN processes sequential data and provides an output for each input.
+-**Dropout Layer:** Helps prevent overfitting by increasing the model’s generalization ability.
+-**Dense Layer:** The final layer of the model, using a sigmoid activation function for sentiment prediction.
+-**Hyperparameter Search:**
+
+-Keras Tuner is used to perform hyperparameter optimization with RandomSearch.
+-Hyperparameters such as embedding output size, RNN units, dropout rate, and optimizer are optimized.
+-The RandomSearch method is used to find the best hyperparameter combination.
+-**Early Stopping:**
+
+-Early stopping is applied, which terminates training when the validation loss does not improve. The best model weights are restored after training.
 
