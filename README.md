@@ -37,23 +37,23 @@ This repository is a collection of various projects that utilize deep learning t
 
 -This project uses TensorFlow and Keras Tuner to create an RNN (Recurrent Neural Network) model for sentiment analysis on the IMDB dataset. In the project, Keras Tuner is used to optimize the model’s hyperparameters using the Random Search method.
 
--**Steps:**
--Loading the IMDB Dataset: The IMDB dataset is loaded using Keras's imdb.load_data() function. This dataset contains labeled movie reviews to perform sentiment analysis. The reviews are converted into numbers using a vocabulary of the top 10,000 words.
+  -**Steps:**
+    -Loading the IMDB Dataset: The IMDB dataset is loaded using Keras's imdb.load_data() function. This dataset contains labeled movie reviews to perform sentiment analysis. The reviews are converted into numbers using a vocabulary of the top 10,000 words.
 
--Data Preprocessing: The loaded text data is padded using the pad_sequences function, with a maximum word length of 100. This ensures that the input data has a consistent length for model processing.
+    -Data Preprocessing: The loaded text data is padded using the pad_sequences function, with a maximum word length of 100. This ensures that the input data has a consistent length for model processing.
 
--**Model Architecture Definition:**
+  -**Model Architecture Definition:**
 
--**Embedding Layer:** Represents words as low-dimensional dense vectors (embeddings).
--**SimpleRNN Layer:** The RNN processes sequential data and provides an output for each input.
--**Dropout Layer:** Helps prevent overfitting by increasing the model’s generalization ability.
--**Dense Layer:** The final layer of the model, using a sigmoid activation function for sentiment prediction.
--**Hyperparameter Search:**
+    -**Embedding Layer:** Represents words as low-dimensional dense vectors (embeddings).
+    -**SimpleRNN Layer:** The RNN processes sequential data and provides an output for each input.
+    -**Dropout Layer:** Helps prevent overfitting by increasing the model’s generalization ability.
+    -**Dense Layer:** The final layer of the model, using a sigmoid activation function for sentiment prediction.
+    -**Hyperparameter Search:**
 
--Keras Tuner is used to perform hyperparameter optimization with RandomSearch.
--Hyperparameters such as embedding output size, RNN units, dropout rate, and optimizer are optimized.
--The RandomSearch method is used to find the best hyperparameter combination.
--**Early Stopping:**
+    -Keras Tuner is used to perform hyperparameter optimization with RandomSearch.
+    -Hyperparameters such as embedding output size, RNN units, dropout rate, and optimizer are optimized.
+    -The RandomSearch method is used to find the best hyperparameter combination.
+  -**Early Stopping:**
 
--Early stopping is applied, which terminates training when the validation loss does not improve. The best model weights are restored after training.
+    -Early stopping is applied, which terminates training when the validation loss does not improve. The best model weights are restored after training.
 
